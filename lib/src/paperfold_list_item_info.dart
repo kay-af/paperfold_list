@@ -1,13 +1,13 @@
 import 'package:paperfold_list/paperfold_list.dart';
 
-class PaperfoldListItemInfo {
+class PaperfoldInfo {
   int index;
   int itemCount;
   double unfold;
   bool foldsIn;
-  PaperfoldListAxis axis;
+  PaperfoldAxis axis;
 
-  PaperfoldListItemInfo({
+  PaperfoldInfo({
     required this.index,
     required this.itemCount,
     required this.unfold,

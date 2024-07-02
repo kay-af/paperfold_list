@@ -6,7 +6,7 @@ import 'package:vector_math/vector_math_64.dart';
 
 typedef PaperfoldListItemBuilder = Widget Function(
   BuildContext context,
-  PaperfoldListItemInfo info,
+  PaperfoldInfo info,
 );
 
 class PaperfoldList extends StatefulWidget {
@@ -15,12 +15,12 @@ class PaperfoldList extends StatefulWidget {
 
   final double unfold;
   final double itemExtent;
-  final PaperfoldListAxis axis;
+  final PaperfoldAxis axis;
   final Duration animationDuration;
   final Curve animationCurve;
   final double perspective;
   final bool firstFoldOutside;
-  final PaperfoldListEffect? effect;
+  final PaperfoldEffect? effect;
 
   final List<Widget>? children;
   final int? itemCount;
@@ -30,7 +30,7 @@ class PaperfoldList extends StatefulWidget {
     required this.itemExtent,
     required this.unfold,
     required this.children,
-    this.axis = PaperfoldListAxis.vertical,
+    this.axis = PaperfoldAxis.vertical,
     this.animationDuration = _defaultAnimationDuration,
     this.animationCurve = _defaultAnimationCurve,
     this.perspective = 0.001,
@@ -48,7 +48,7 @@ class PaperfoldList extends StatefulWidget {
     required this.unfold,
     required this.itemCount,
     required this.itemBuilder,
-    this.axis = PaperfoldListAxis.vertical,
+    this.axis = PaperfoldAxis.vertical,
     this.animationDuration = _defaultAnimationDuration,
     this.animationCurve = _defaultAnimationCurve,
     this.perspective = 0.001,
@@ -67,7 +67,7 @@ class PaperfoldList extends StatefulWidget {
 
 class PaperfoldListState extends State<PaperfoldList> with SingleTickerProviderStateMixin {
   late AnimationController _unfoldAnimationController;
-  late PaperfoldListEffect _effect;
+  late PaperfoldEffect _effect;
 
   @override
   void initState() {
@@ -76,7 +76,7 @@ class PaperfoldListState extends State<PaperfoldList> with SingleTickerProviderS
       vsync: this,
       value: widget.unfold,
     );
-    _effect = widget.effect ?? PaperfoldListShadeEffect();
+    _effect = widget.effect ?? PaperfoldShadeEffect();
   }
 
   @override
@@ -93,7 +93,7 @@ class PaperfoldListState extends State<PaperfoldList> with SingleTickerProviderS
     }
 
     if (oldWidget.effect != widget.effect) {
-      _effect = widget.effect ?? PaperfoldListShadeEffect();
+      _effect = widget.effect ?? PaperfoldShadeEffect();
     }
   }
 
@@ -106,13 +106,13 @@ class PaperfoldListState extends State<PaperfoldList> with SingleTickerProviderS
   @override
   Widget build(BuildContext context) {
     switch (widget.axis) {
-      case PaperfoldListAxis.vertical:
+      case PaperfoldAxis.vertical:
         return Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: _buildChildren(),
         );
-      case PaperfoldListAxis.horizontal:
+      case PaperfoldAxis.horizontal:
         return Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -122,7 +122,7 @@ class PaperfoldListState extends State<PaperfoldList> with SingleTickerProviderS
   }
 
   List<Widget> _buildChildren() {
-    final isHorizontal = widget.axis == PaperfoldListAxis.horizontal;
+    final isHorizontal = widget.axis == PaperfoldAxis.horizontal;
     final isVertical = !isHorizontal;
     final childCount = widget.children?.length ?? widget.itemCount!;
 
@@ -165,7 +165,7 @@ class PaperfoldListState extends State<PaperfoldList> with SingleTickerProviderS
                 : double.infinity,
           );
 
-          final info = PaperfoldListItemInfo(
+          final info = PaperfoldInfo(
             index: index,
             itemCount: childCount,
             unfold: unfold,
