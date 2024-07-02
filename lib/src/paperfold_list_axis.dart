@@ -1,0 +1,1 @@
+enum PaperfoldListAxis { horizontal, vertical }
