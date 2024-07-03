@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:paperfold_list/paperfold_list.dart';
 import 'package:vector_math/vector_math_64.dart';
 
+/// Signature for a function that creates a widget, using [PaperfoldInfo],
 typedef PaperfoldListItemBuilder = Widget Function(
   BuildContext context,
   PaperfoldInfo info,
@@ -169,7 +170,7 @@ class PaperfoldListState extends State<PaperfoldList> with SingleTickerProviderS
             index: index,
             itemCount: childCount,
             unfold: unfold,
-            foldsIn: foldInside,
+            foldsInward: foldInside,
             axis: widget.axis,
           );
 

@@ -40,41 +40,19 @@ class _ExamplePageState extends State<ExamplePage> {
         child: const Icon(Icons.flip),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              color: const Color(0xFFF8F4F0),
-              child: const Padding(
-                padding: EdgeInsets.all(16.0),
-                child: Text(
-                  "Sint veniam consequat nulla sunt. Dolore enim Lorem veniam cupidatat in amet eu sunt consequat culpa incididunt. Culpa labore culpa adipisicing enim exercitation eu aute.",
-                ),
+        child: PaperfoldList(
+          itemExtent: 120,
+          unfold: folded ? 0.25 : 1,
+          perspective: 0.001,
+          children: List.generate(
+            4,
+            (index) => const Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Text(
+                "Sint veniam consequat nulla sunt. Dolore enim Lorem veniam cupidatat in amet eu sunt consequat culpa incididunt. Culpa labore culpa adipisicing enim exercitation eu aute.",
               ),
             ),
-            PaperfoldList(
-              itemExtent: 120,
-              unfold: folded ? 0.5 : 1,
-              perspective: 0.001,
-              children: List.generate(
-                4,
-                (index) => const Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Text(
-                    "Sint veniam consequat nulla sunt. Dolore enim Lorem veniam cupidatat in amet eu sunt consequat culpa incididunt. Culpa labore culpa adipisicing enim exercitation eu aute.",
-                  ),
-                ),
-              ),
-            ),
-            Container(
-              color: const Color(0xFFF8F4F0),
-              child: const Padding(
-                padding: EdgeInsets.all(16.0),
-                child: Text(
-                  "Sint veniam consequat nulla sunt. Dolore enim Lorem veniam cupidatat in amet eu sunt consequat culpa incididunt. Culpa labore culpa adipisicing enim exercitation eu aute.",
-                ),
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );

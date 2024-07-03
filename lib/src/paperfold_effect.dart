@@ -26,78 +26,95 @@ class PaperfoldNoEffect extends PaperfoldEffect {
 }
 
 /// A [PaperfoldEffect] that decorates each `child` within the [PaperfoldList] with
-/// a background, highlights, and shadows. This is the default effect used in the
+/// a background, highlight, and shadow. This is the default effect used in the
 /// [PaperfoldList] widget.
 class PaperfoldShadeEffect extends PaperfoldEffect {
   /// Constructs a [PaperfoldEffect] that decorates every `child` of the [PaperfoldList]
   /// using the following parameters:
   ///
-  /// `backgroundColor` - Provides a surface of the same color behind every child.
+  /// `backgroundColor` - Draws a surface with the specified color behind each child.
   /// A `null` value indicates no surface.
   ///
-  /// `inOverlay` - Overlays a flat surface of the given color on a child that folds
-  /// inside. The overlay strengthens as the paper folds. It is useful for drawing
-  /// shadows or highlights on a child that folds inside. A `null` value indicates
+  /// `inwardOverlay` - Overlays a flat surface of the specified color on a child that folds
+  /// inward. The overlay strengthens as the paper folds. It is useful for drawing
+  /// shadows or highlights on a child that folds inward. A `null` value indicates
   /// no overlay.
   ///
-  /// `outOverlay` - Overlays a flat surface of the given color on a child that folds
-  /// outside. The overlay strengthens as the paper folds. It is useful for drawing
-  /// shadows or highlights on a child that folds outside. A `null` value indicates
+  /// `outwardOverlay` - Overlays a flat surface of the given color on a child that folds
+  /// outward. The overlay strengthens as the paper folds. It is useful for drawing
+  /// shadows or highlights on a child that folds outward. A `null` value indicates
   /// no overlay.
   ///
-  /// `inCrease` - Color of a gradient that starts from the inside crease and fades
+  /// `inwardCrease` - Color of a gradient that starts from the inside crease and fades
   /// towards the outside. The gradient strengthens as the paper folds. The size of
-  /// the gradient is determined by the `inCreaseSize`. A `null` value indicates no
+  /// the gradient is determined by the `inwardCreaseSize`. A `null` value indicates no
   /// gradient.
   ///
-  /// `inCreaseSize` - The size of the `inCrease` gradient represented as a fraction
-  /// of `itemExtent` of [PaperfoldList]. This property is ignored if `inCrease` is
+  /// `inwardCreaseSize` - The size of the `inwardCrease` gradient represented as a fraction
+  /// of `itemExtent` of [PaperfoldList]. This property is ignored if `inwardCrease` is
   /// `null`.
   ///
-  /// `outCrease` - Color of a gradient that starts from the outside crease and fades
+  /// `outwardCrease` - Color of a gradient that starts from the outside crease and fades
   /// towards the inside. The gradient strengthens as the paper folds. The size of
-  /// the gradient is determined by the `outCreaseSize`. A `null` value indicates no
+  /// the gradient is determined by the `outwardCreaseSize`. A `null` value indicates no
   /// gradient.
   ///
-  /// `outCreaseSize` - The size of the `outCrease` gradient represented as a fraction
-  /// of `itemExtent` of [PaperfoldList]. This property is ignored if `outCrease` is
+  /// `outwardCreaseSize` - The size of the `outwardCrease` gradient represented as a fraction
+  /// of `itemExtent` of [PaperfoldList]. This property is ignored if `outwardCrease` is
   /// `null`.
+  ///
+  /// `drawInwardCreaseOnTop` - The inward crease is drawn after the outward crease.
+  ///
+  /// `preBuilder` - Optional builder to add custom effects after drawing the background
+  /// before applying overlays and creases.
+  ///
+  /// `postBuilder` - Optional builder to add custom effects after applying the shade
+  /// effects.
   PaperfoldShadeEffect({
     final Color? backgroundColor = const Color(0xFFF8F4F0),
-    final Color? inOverlay = const Color(0x240C0404),
-    final Color? outOverlay,
-    final Color? inCrease = const Color(0x420C0404),
-    final double inCreaseSize = 0.75,
-    final Color? outCrease = const Color(0x42F5F5F5),
-    final double outCreaseSize = 0.25,
+    final Color? inwardOverlay = const Color(0x240C0404),
+    final Color? outwardOverlay,
+    final Color? inwardCrease = const Color(0x420C0404),
+    final double inwardCreaseSize = 0.75,
+    final Color? outwardCrease = const Color(0x42F5F5F5),
+    final double outwardCreaseSize = 0.25,
+    final bool drawInwardCreaseOnTop = false,
+    final PaperfoldEffectBuilder? preBuilder,
+    final PaperfoldEffectBuilder? postBuilder,
   })  : assert(
-          inCreaseSize >= 0 && inCreaseSize <= 1,
+          inwardCreaseSize >= 0 && inwardCreaseSize <= 1,
           "inCreaseSize must be represented as a fraction (0 to 1) of the itemExtent passed in PaperfoldList widget",
         ),
         assert(
-          outCreaseSize >= 0 && inCreaseSize <= 1,
+          outwardCreaseSize >= 0 && inwardCreaseSize <= 1,
           "outCreaseSize must be represented as a fraction (0 to 1) of the itemExtent passed in PaperfoldList widget",
         ),
         super(builder: (context, info, child) {
-          return _optionallyDrawCreases(
-            inCrease: inCrease,
-            outCrease: outCrease,
-            inCreaseSize: inCreaseSize,
-            outCreaseSize: outCreaseSize,
+          final surfacedChild = _optionallyDrawBackground(
+            color: backgroundColor,
+            child: child,
+          );
+
+          final shadedChild = _optionallyDrawCreases(
+            inwardCrease: inwardCrease,
+            outwardCrease: outwardCrease,
+            inwardCreaseSize: inwardCreaseSize,
+            outwardCreaseSize: outwardCreaseSize,
+            drawInwardCreaseOnTop: drawInwardCreaseOnTop,
             info: info,
             child: _optionallyDrawOverlay(
-              overlay: info.foldsIn ? inOverlay : null,
+              overlay: info.foldsInward ? inwardOverlay : null,
               info: info,
               child: _optionallyDrawOverlay(
-                overlay: !info.foldsIn ? outOverlay : null,
+                overlay: !info.foldsInward ? outwardOverlay : null,
                 info: info,
-                child: _optionallyDrawBackground(
-                  color: backgroundColor,
-                  child: child,
-                ),
+                child:
+                    preBuilder != null ? preBuilder(context, info, surfacedChild) : surfacedChild,
               ),
             ),
           );
+
+          return postBuilder != null ? postBuilder(context, info, shadedChild) : shadedChild;
         });
 
   /// Flips an alignment centered on the edge of a box.
@@ -107,15 +124,15 @@ class PaperfoldShadeEffect extends PaperfoldEffect {
 
   /// Calculates the starting alignment of a gradient to be applied on the crease.
   static Alignment _computeCreaseBeginAlignment({
-    required bool inCrease,
+    required bool isInwardCrease,
     required PaperfoldInfo info,
   }) {
     final axis = info.axis;
-    final foldInside = info.foldsIn;
+    final foldsInward = info.foldsInward;
     final inCreaseAlignment = axis == PaperfoldAxis.horizontal
-        ? (foldInside ? Alignment.centerRight : Alignment.centerLeft)
-        : (foldInside ? Alignment.bottomCenter : Alignment.topCenter);
-    if (!inCrease) {
+        ? (foldsInward ? Alignment.centerRight : Alignment.centerLeft)
+        : (foldsInward ? Alignment.bottomCenter : Alignment.topCenter);
+    if (!isInwardCrease) {
       return _flipAlignment(inCreaseAlignment);
     }
     return inCreaseAlignment;
@@ -123,12 +140,12 @@ class PaperfoldShadeEffect extends PaperfoldEffect {
 
   /// Calculates the ending alignment of a gradient to be applied on the crease.
   static Alignment _computeCreaseEndAlignment({
-    required bool inCrease,
+    required bool isInwardCrease,
     required PaperfoldInfo info,
     required double size,
   }) {
     final begin = _computeCreaseBeginAlignment(
-      inCrease: inCrease,
+      isInwardCrease: isInwardCrease,
       info: info,
     );
     final end = _flipAlignment(begin);
@@ -137,65 +154,77 @@ class PaperfoldShadeEffect extends PaperfoldEffect {
 
   /// Overlays the given child with the crease gradients
   static Widget _optionallyDrawCreases({
-    required Color? inCrease,
-    required double inCreaseSize,
-    required Color? outCrease,
-    required double outCreaseSize,
+    required Color? inwardCrease,
+    required double inwardCreaseSize,
+    required Color? outwardCrease,
+    required double outwardCreaseSize,
+    required bool drawInwardCreaseOnTop,
     required PaperfoldInfo info,
     required Widget child,
   }) {
     // Render no crease if not provided.
-    if (inCrease == null && outCrease == null) return child;
+    if (inwardCrease == null && outwardCrease == null) return child;
+
+    final inward = inwardCrease == null
+        ? null
+        : Positioned.fill(
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Color.lerp(inwardCrease.withOpacity(0), inwardCrease, 1 - info.unfold)!,
+                    inwardCrease.withOpacity(0),
+                  ],
+                  begin: _computeCreaseBeginAlignment(
+                    isInwardCrease: true,
+                    info: info,
+                  ),
+                  end: _computeCreaseEndAlignment(
+                    isInwardCrease: true,
+                    info: info,
+                    size: inwardCreaseSize,
+                  ),
+                ),
+              ),
+            ),
+          );
+
+    final outward = outwardCrease == null
+        ? null
+        : Positioned.fill(
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Color.lerp(outwardCrease.withOpacity(0), outwardCrease, 1 - info.unfold)!,
+                    outwardCrease.withOpacity(0),
+                  ],
+                  begin: _computeCreaseBeginAlignment(
+                    isInwardCrease: false,
+                    info: info,
+                  ),
+                  end: _computeCreaseEndAlignment(
+                    isInwardCrease: false,
+                    info: info,
+                    size: outwardCreaseSize,
+                  ),
+                ),
+              ),
+            ),
+          );
+
     return Stack(
       fit: StackFit.expand,
       children: [
         child,
-        // Render the crease facing inside.
-        if (inCrease != null)
-          Positioned.fill(
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Color.lerp(inCrease.withOpacity(0), inCrease, 1 - info.unfold)!,
-                    inCrease.withOpacity(0),
-                  ],
-                  begin: _computeCreaseBeginAlignment(
-                    inCrease: true,
-                    info: info,
-                  ),
-                  end: _computeCreaseEndAlignment(
-                    inCrease: true,
-                    info: info,
-                    size: inCreaseSize,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        // Render the crease facing outside.
-        if (outCrease != null)
-          Positioned.fill(
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Color.lerp(outCrease.withOpacity(0), outCrease, 1 - info.unfold)!,
-                    outCrease.withOpacity(0),
-                  ],
-                  begin: _computeCreaseBeginAlignment(
-                    inCrease: false,
-                    info: info,
-                  ),
-                  end: _computeCreaseEndAlignment(
-                    inCrease: false,
-                    info: info,
-                    size: outCreaseSize,
-                  ),
-                ),
-              ),
-            ),
-          ),
+        if (drawInwardCreaseOnTop) ...[
+          if (outward != null) outward,
+          if (inward != null) inward,
+        ],
+        if (!drawInwardCreaseOnTop) ...[
+          if (inward != null) inward,
+          if (outward != null) outward,
+        ],
       ],
     );
   }
