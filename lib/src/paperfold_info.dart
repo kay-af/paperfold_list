@@ -16,14 +16,16 @@ class PaperfoldInfo {
   /// `1` - the list is fully unfolded.
   double unfold;
 
-  /// Indicates if the current child is set to fold inside starting from the `left`
-  /// or `top` for [PaperfoldAxis.horizontal] or [PaperfoldAxis.vertical] axes respectively.
+  /// Indicates if the current child is set to fold inside starting from the
+  /// `left` or `top` for [PaperfoldAxis.horizontal] or [PaperfoldAxis.vertical]
+  /// axes respectively.
   bool foldsInward;
 
   /// The axis along which the [PaperfoldList] widget is laid out.
   PaperfoldAxis axis;
 
-  /// Constructs an instance to store the data representing the state of [PaperfoldList].
+  /// Constructs an instance to store the data representing the state of
+  /// [PaperfoldList].
   PaperfoldInfo({
     required this.index,
     required this.itemCount,

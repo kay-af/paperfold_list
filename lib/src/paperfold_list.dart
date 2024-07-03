@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:paperfold_list/paperfold_list.dart';
 import 'package:vector_math/vector_math_64.dart';
 
-/// Signature for a function that creates a widget, using [PaperfoldInfo],
+/// Signature for a function that creates a widget, using [PaperfoldInfo]
 typedef PaperfoldListItemBuilder = Widget Function(
   BuildContext context,
   PaperfoldInfo info,
@@ -12,7 +12,69 @@ typedef PaperfoldListItemBuilder = Widget Function(
 
 /// # Paperfold List
 ///
-/// A Flutter widget to make an expandable list view that folds in/out like paper.
+/// A Flutter widget to make an expandable list view that folds in/out like
+/// paper.
+///
+/// ## Parameters
+///
+/// - `itemExtent` (double): The extent (height/width) of each item in the list.
+/// - `unfold` (double): A value between 0 and 1 that indicates the degree of
+///   unfolding. 0 is completely folded, and 1 is fully unfolded.
+/// - `children` (List<Widget>?): The list of child widgets to be displayed.
+///   This parameter is required in the default constructor.
+/// - `itemCount` (int?): The number of items in the list. This parameter is
+///   required in the builder constructor.
+/// - `itemBuilder` (PaperfoldListItemBuilder?): A builder function to generate
+///   list items. This parameter is required in the builder constructor.
+/// - `axis` (PaperfoldAxis): The axis along which the list scrolls. Defaults to
+///   `PaperfoldAxis.vertical`.
+/// - `animationDuration` (Duration): The duration of the unfold animation.
+///   Defaults to 350 milliseconds.
+/// - `animationCurve` (Curve): The curve of the unfold animation. Defaults to
+///   `Curves.linear`.
+/// - `perspective` (double): The amount of perspective applied to the folding
+///   effect. Defaults to 0.001.
+/// - `firstFoldOutside` (bool): Whether the first fold should be outside.
+///   Defaults to `false`.
+/// - `unmountOnFold` (bool): Whether to unmount the widget when it is fully
+///   folded. Defaults to `false`.
+/// - `interactionUnfoldThreshold` (double?): The threshold of unfold value
+///   below which interactions are ignored. This parameter is optional.
+/// - `effect` (PaperfoldEffect?): A custom effect applied to the folding
+///   animation. Defaults to `PaperfoldShadeEffect`.
+///
+/// ## Constructors
+///
+/// - `PaperfoldList`: Creates a PaperfoldList with a list of child widgets.
+/// - `PaperfoldList.builder`: Creates a PaperfoldList using a builder function.
+///
+/// ## Example Usage
+///
+/// ```dart
+/// PaperfoldList(
+///   itemExtent: 100.0,
+///   unfold: 0.5,
+///   children: [
+///     Container(color: Colors.red, height: 100.0),
+///     Container(color: Colors.green, height: 100.0),
+///     Container(color: Colors.blue, height: 100.0),
+///   ],
+/// );
+/// ```
+///
+/// ```dart
+/// PaperfoldList.builder(
+///   itemExtent: 100.0,
+///   unfold: 0.5,
+///   itemCount: 10,
+///   itemBuilder: (context, info) {
+///     return Container(
+///       color: info.index.isEven ? Colors.red : Colors.green,
+///       height: 100.0,
+///     );
+///   },
+/// );
+/// ```
 class PaperfoldList extends StatefulWidget {
   static const _defaultAnimationDuration = Duration(milliseconds: 350);
   static const _defaultAnimationCurve = Curves.linear;
