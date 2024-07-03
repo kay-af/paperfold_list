@@ -10,6 +10,9 @@ typedef PaperfoldListItemBuilder = Widget Function(
   PaperfoldInfo info,
 );
 
+/// # Paperfold List
+///
+/// A Flutter widget to make an expandable list view that folds in/out like paper.
 class PaperfoldList extends StatefulWidget {
   static const _defaultAnimationDuration = Duration(milliseconds: 350);
   static const _defaultAnimationCurve = Curves.linear;
@@ -21,6 +24,8 @@ class PaperfoldList extends StatefulWidget {
   final Curve animationCurve;
   final double perspective;
   final bool firstFoldOutside;
+  final bool unmountOnFold;
+  final double? interactionUnfoldThreshold;
   final PaperfoldEffect? effect;
 
   final List<Widget>? children;
@@ -36,11 +41,15 @@ class PaperfoldList extends StatefulWidget {
     this.animationCurve = _defaultAnimationCurve,
     this.perspective = 0.001,
     this.firstFoldOutside = false,
+    this.unmountOnFold = false,
+    this.interactionUnfoldThreshold,
     this.effect,
     super.key,
   })  : assert(unfold >= 0 && unfold <= 1),
         assert(itemExtent > 0),
         assert(children != null && children.isNotEmpty),
+        assert(interactionUnfoldThreshold == null ||
+            (interactionUnfoldThreshold >= 0 && interactionUnfoldThreshold <= 1)),
         itemCount = null,
         itemBuilder = null;
 
@@ -54,12 +63,16 @@ class PaperfoldList extends StatefulWidget {
     this.animationCurve = _defaultAnimationCurve,
     this.perspective = 0.001,
     this.firstFoldOutside = false,
+    this.unmountOnFold = false,
+    this.interactionUnfoldThreshold,
     this.effect,
     super.key,
   })  : assert(unfold >= 0 && unfold <= 1),
         assert(itemExtent > 0),
         assert(itemCount != null && itemCount > 0),
         assert(itemBuilder != null),
+        assert(interactionUnfoldThreshold == null ||
+            (interactionUnfoldThreshold >= 0 && interactionUnfoldThreshold <= 1)),
         children = null;
 
   @override
@@ -134,6 +147,11 @@ class PaperfoldListState extends State<PaperfoldList> with SingleTickerProviderS
         animation: _unfoldAnimationController,
         builder: (context, child) {
           final unfold = _unfoldAnimationController.value;
+
+          if (unfold == 0 && widget.unmountOnFold) {
+            return const SizedBox.shrink();
+          }
+
           final alignmentHorizontal = foldInside ? Alignment.centerLeft : Alignment.centerRight;
           final alignmentVertical = foldInside ? Alignment.topCenter : Alignment.bottomCenter;
           final alignment = isHorizontal ? alignmentHorizontal : alignmentVertical;
@@ -174,23 +192,30 @@ class PaperfoldListState extends State<PaperfoldList> with SingleTickerProviderS
             axis: widget.axis,
           );
 
-          return SizedBox.fromSize(
-            size: size,
-            child: UnconstrainedBox(
-              clipBehavior: Clip.hardEdge,
-              alignment: alignment,
-              constrainedAxis: isHorizontal ? Axis.vertical : Axis.horizontal,
-              child: SizedBox.fromSize(
-                size: isHorizontal
-                    ? Size.fromWidth(widget.itemExtent)
-                    : Size.fromHeight(widget.itemExtent),
-                child: Transform(
-                  alignment: alignment,
-                  transform: perspectiveTransform,
-                  child: _effect.builder(
-                    context,
-                    info,
-                    child ?? widget.itemBuilder!(context, info),
+          final shouldIgnorePointers = widget.interactionUnfoldThreshold == null
+              ? false
+              : unfold < widget.interactionUnfoldThreshold!;
+
+          return IgnorePointer(
+            ignoring: shouldIgnorePointers,
+            child: SizedBox.fromSize(
+              size: size,
+              child: UnconstrainedBox(
+                clipBehavior: Clip.hardEdge,
+                alignment: alignment,
+                constrainedAxis: isHorizontal ? Axis.vertical : Axis.horizontal,
+                child: SizedBox.fromSize(
+                  size: isHorizontal
+                      ? Size.fromWidth(widget.itemExtent)
+                      : Size.fromHeight(widget.itemExtent),
+                  child: Transform(
+                    alignment: alignment,
+                    transform: perspectiveTransform,
+                    child: _effect.builder(
+                      context,
+                      info,
+                      child ?? widget.itemBuilder!(context, info),
+                    ),
                   ),
                 ),
               ),

@@ -44,8 +44,9 @@ class _ExamplePageState extends State<ExamplePage> {
           itemExtent: 120,
           unfold: folded ? 0.25 : 1,
           perspective: 0.001,
+          unmountOnFold: true,
           children: List.generate(
-            4,
+            5,
             (index) => const Padding(
               padding: EdgeInsets.all(16.0),
               child: Text(
