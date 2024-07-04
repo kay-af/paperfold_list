@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:paperfold_list/paperfold_list.dart';
 
@@ -78,8 +79,8 @@ class PaperfoldShadeEffect extends PaperfoldEffect {
   /// * `drawInwardCreaseOnTop`: Determines the order in which the creases are
   ///   drawn. When `true`, The inward crease is drawn after the outward crease.
   ///
-  /// * `preBuilder`: Optional builder to add custom effects after drawing the
-  ///   background before applying overlays and creases.
+  /// * `preBuilder`: Optional builder to add custom effects before applying
+  ///   all the effects.
   ///
   /// * `postBuilder` - Optional builder to add custom effects after applying
   ///   all the effects.
@@ -105,7 +106,7 @@ class PaperfoldShadeEffect extends PaperfoldEffect {
         super(builder: (context, info, child) {
           final surfacedChild = _optionallyDrawBackground(
             color: backgroundColor,
-            child: child,
+            child: preBuilder != null ? preBuilder(context, info, child) : child,
           );
 
           final shadedChild = _optionallyDrawCreases(
@@ -121,8 +122,7 @@ class PaperfoldShadeEffect extends PaperfoldEffect {
               child: _optionallyDrawOverlay(
                 overlay: !info.foldsInward ? outwardOverlay : null,
                 info: info,
-                child:
-                    preBuilder != null ? preBuilder(context, info, surfacedChild) : surfacedChild,
+                child: surfacedChild,
               ),
             ),
           );
@@ -186,21 +186,23 @@ class PaperfoldShadeEffect extends PaperfoldEffect {
     final inwardCreaseWidget = inwardCrease == null
         ? null
         : Positioned.fill(
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Color.lerp(inwardCrease.withOpacity(0), inwardCrease, 1 - info.unfold)!,
-                    inwardCrease.withOpacity(0),
-                  ],
-                  begin: _computeCreaseBeginAlignment(
-                    isInwardCrease: true,
-                    info: info,
-                  ),
-                  end: _computeCreaseEndAlignment(
-                    isInwardCrease: true,
-                    info: info,
-                    size: inwardCreaseSize,
+            child: IgnorePointer(
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Color.lerp(inwardCrease.withOpacity(0), inwardCrease, 1 - info.unfold)!,
+                      inwardCrease.withOpacity(0),
+                    ],
+                    begin: _computeCreaseBeginAlignment(
+                      isInwardCrease: true,
+                      info: info,
+                    ),
+                    end: _computeCreaseEndAlignment(
+                      isInwardCrease: true,
+                      info: info,
+                      size: inwardCreaseSize,
+                    ),
                   ),
                 ),
               ),
@@ -210,21 +212,23 @@ class PaperfoldShadeEffect extends PaperfoldEffect {
     final outwardCreaseWidget = outwardCrease == null
         ? null
         : Positioned.fill(
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Color.lerp(outwardCrease.withOpacity(0), outwardCrease, 1 - info.unfold)!,
-                    outwardCrease.withOpacity(0),
-                  ],
-                  begin: _computeCreaseBeginAlignment(
-                    isInwardCrease: false,
-                    info: info,
-                  ),
-                  end: _computeCreaseEndAlignment(
-                    isInwardCrease: false,
-                    info: info,
-                    size: outwardCreaseSize,
+            child: IgnorePointer(
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Color.lerp(outwardCrease.withOpacity(0), outwardCrease, 1 - info.unfold)!,
+                      outwardCrease.withOpacity(0),
+                    ],
+                    begin: _computeCreaseBeginAlignment(
+                      isInwardCrease: false,
+                      info: info,
+                    ),
+                    end: _computeCreaseEndAlignment(
+                      isInwardCrease: false,
+                      info: info,
+                      size: outwardCreaseSize,
+                    ),
                   ),
                 ),
               ),
