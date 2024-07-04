@@ -41,16 +41,17 @@ class _ExamplePageState extends State<ExamplePage> {
       ),
       body: SingleChildScrollView(
         child: PaperfoldList(
-          itemExtent: 120,
-          unfold: folded ? 0.25 : 1,
-          perspective: 0.001,
+          itemExtent: 60,
+          targetUnfold: folded ? 0 : 1,
+          animationDuration: const Duration(seconds: 2),
           unmountOnFold: true,
           children: List.generate(
-            5,
+            100,
             (index) => const Padding(
               padding: EdgeInsets.all(16.0),
               child: Text(
                 "Sint veniam consequat nulla sunt. Dolore enim Lorem veniam cupidatat in amet eu sunt consequat culpa incididunt. Culpa labore culpa adipisicing enim exercitation eu aute.",
+                overflow: TextOverflow.ellipsis,
               ),
             ),
           ),

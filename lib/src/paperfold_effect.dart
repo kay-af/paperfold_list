@@ -98,11 +98,11 @@ class PaperfoldShadeEffect extends PaperfoldEffect {
     final PaperfoldEffectBuilder? postBuilder,
   })  : assert(
           inwardCreaseSize >= 0 && inwardCreaseSize <= 1,
-          "inCreaseSize must be represented as a fraction (0 to 1) of the itemExtent passed in PaperfoldList widget",
+          "inCreaseSize must be represented as a fraction (0 to 1) of the itemExtent passed in PaperfoldList widget.",
         ),
         assert(
           outwardCreaseSize >= 0 && inwardCreaseSize <= 1,
-          "outCreaseSize must be represented as a fraction (0 to 1) of the itemExtent passed in PaperfoldList widget",
+          "outCreaseSize must be represented as a fraction (0 to 1) of the itemExtent passed in PaperfoldList widget.",
         ),
         super(builder: (context, info, child) {
           final surfacedChild = _optionallyDrawBackground(
