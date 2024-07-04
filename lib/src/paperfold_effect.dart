@@ -83,8 +83,6 @@ class PaperfoldShadeEffect extends PaperfoldEffect {
   ///
   /// * `postBuilder` - Optional builder to add custom effects after applying
   ///   all the effects.
-  ///
-  /// See [PaperfoldList] for example usage.
   PaperfoldShadeEffect({
     final Color? backgroundColor = const Color(0xFFF8F4F0),
     final Color? inwardOverlay = const Color(0x240C0404),
