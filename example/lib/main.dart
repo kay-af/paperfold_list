@@ -27,9 +27,7 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData.light(useMaterial3: true),
-      home: const SafeArea(
-        child: ExamplePage(),
-      ),
+      home: const ExamplePage(),
     );
   }
 }
@@ -95,7 +93,7 @@ class _ExamplePageState extends State<ExamplePage> {
 
   final double _itemExtent = 80;
 
-  bool _folded = false;
+  bool _folded = true;
 
   @override
   Widget build(BuildContext context) {
@@ -115,6 +113,7 @@ class _ExamplePageState extends State<ExamplePage> {
             _buildPost(_posts.first),
             PaperfoldList.builder(
               targetUnfold: _folded ? 0 : 1,
+              axis: PaperfoldAxis.vertical,
               itemExtent: _itemExtent,
               itemCount: _posts.length - 2,
               interactionUnfoldThreshold: 1,
