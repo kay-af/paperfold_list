@@ -53,11 +53,11 @@ PaperfoldList.builder(
 )
 ```
 
-Check out the **PaperfoldList** documentation for complete information about the parameters.
+Check out the [PaperfoldList](https://pub.dev/documentation/paperfold_list/1.0.0/paperfold_list/PaperfoldList-class) documentation for complete information about the parameters.
 
 ### Effects
 
-The **PaperfoldEffect** class provides a way to include additional effects by wrapping each child with a widget to draw effects over them based on the amount of the list folded and other properties.
+The [PaperfoldEffect](https://pub.dev/documentation/paperfold_list/1.0.0/paperfold_list/PaperfoldEffect-class) class provides a way to include additional effects by wrapping each child with a widget to draw effects over them based on the amount of the list folded and other properties.
 
 There are three types of Effects provided:
 
@@ -85,7 +85,7 @@ There are three types of Effects provided:
   )
   ```
 
-  Check out the **PaperfoldShadeEffect** documentation for complete information about the parameters.
+  Check out the [PaperfoldShadeEffect](https://pub.dev/documentation/paperfold_list/1.0.0/paperfold_list/PaperfoldShadeEffect-class) documentation for complete information about the parameters.
 
 - **PaperfoldListCustomEffect**: Define your own `PaperfoldEffectBuilder` to achieve a fully custom effect.
 
