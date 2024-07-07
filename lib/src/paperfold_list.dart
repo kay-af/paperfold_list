@@ -292,12 +292,14 @@ class PaperfoldListState extends State<PaperfoldList> with SingleTickerProviderS
       case PaperfoldAxis.vertical:
         return Column(
           mainAxisAlignment: _flexAlignment,
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: _buildChildren(),
         );
       case PaperfoldAxis.horizontal:
         return Row(
           mainAxisAlignment: _flexAlignment,
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: _buildChildren(),
         );
