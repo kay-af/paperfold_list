@@ -1,7 +1,8 @@
 # Paperfold List
 
-<a href="https://pub.dev/packages/slide_action"><img src="https://img.shields.io/badge/pub-1.0.0-blue" alt="pub.dev"></a>
-<a href="https://pub.dev/packages/slide_action"><img src="https://img.shields.io/badge/license-MIT-yellow" alt="pub.dev"></a>
+<a href="https://pub.dev/packages/paperfold_list"><img src="https://img.shields.io/badge/pub-1.0.0-blue" alt="pub.dev" /></a>
+<a href="https://github.com/kay-af/paperfold_list/actions"><img src="https://github.com/kay-af/paperfold_list/actions/workflows/test.yml/badge.svg" /></a>
+<a href="https://opensource.org/license/MIT"><img src="https://img.shields.io/badge/license-MIT-yellow" alt="pub.dev" /></a>
 
 Inspired by [PaperfoldJs](https://www.felixniklas.com/paperfold/).
 
@@ -26,7 +27,8 @@ PaperfoldList(
   itemExtent: 100,
   targetUnfold: 0.5,
   axis: PaperfoldAxis.vertical,
-  alignment: PaperfoldAlignment.start,
+  axisSize: PaperfoldAxisSize.min,
+  axisAlignment: PaperfoldAxisAlignment.start,
   animationDuration: const Duration(milliseconds: 500),
   animationCurve: Curves.ease,
   perspective: 0.0015,
@@ -106,4 +108,4 @@ There are three types of Effects provided:
 
 ## Issues
 
-Raise any issues on [Github](https://github.com/kay-af/paperfold_list/issues).
+Facing issues? Raise them on [Github](https://github.com/kay-af/paperfold_list/issues).
