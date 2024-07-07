@@ -77,19 +77,30 @@ class PaperfoldList extends StatefulWidget {
   /// Default value: [PaperfoldAxis.vertical].
   final PaperfoldAxis axis;
 
-  /// [PaperfoldList] places elements in a `Row` or `Column` based on the
+  /// [PaperfoldList] places the children in a [Row] or [Column] based on the
+  /// `axis`. This property controls the `mainAxisSize` property of the
+  /// corresponding widget.
+  ///
+  /// * [PaperfoldAxisSize.min] corresponds to [MainAxisSize.min].
+  ///
+  /// * [PaperfoldAxisSize.max] corresponds to [MainAxisSize.max].
+  ///
+  /// Default value: [PaperfoldAxisSize.min].
+  final PaperfoldAxisSize axisSize;
+
+  /// [PaperfoldList] places the children in a [Row] or [Column] based on the
   /// `axis`. This property controls the `mainAxisAlignment` property of the
-  /// corresponding flex widget.
+  /// corresponding widget.
   ///
-  /// * [PaperfoldAlignment.start] corresponds to [MainAxisAlignment.start].
+  /// * [PaperfoldAxisAlignment.start] corresponds to [MainAxisAlignment.start].
   ///
-  /// * [PaperfoldAlignment.center] corresponds to
+  /// * [PaperfoldAxisAlignment.center] corresponds to
   ///   [MainAxisAlignment.center].
   ///
-  /// * [PaperfoldAlignment.end] corresponds to [MainAxisAlignment.end].
+  /// * [PaperfoldAxisAlignment.end] corresponds to [MainAxisAlignment.end].
   ///
-  /// Default value: [PaperfoldAlignment.start].
-  final PaperfoldAlignment alignment;
+  /// Default value: [PaperfoldAxisAlignment.start].
+  final PaperfoldAxisAlignment axisAlignment;
 
   /// The time taken to smoothly animate to the `targetUnfold` whenever the
   /// `targetUnfold` value changes.
@@ -168,7 +179,8 @@ class PaperfoldList extends StatefulWidget {
     required this.targetUnfold,
     required this.children,
     this.axis = PaperfoldAxis.vertical,
-    this.alignment = PaperfoldAlignment.start,
+    this.axisSize = PaperfoldAxisSize.min,
+    this.axisAlignment = PaperfoldAxisAlignment.start,
     this.animationDuration = _defaultAnimationDuration,
     this.animationCurve = _defaultAnimationCurve,
     this.perspective = 0.001,
@@ -204,7 +216,8 @@ class PaperfoldList extends StatefulWidget {
     required this.itemCount,
     required this.itemBuilder,
     this.axis = PaperfoldAxis.vertical,
-    this.alignment = PaperfoldAlignment.start,
+    this.axisSize = PaperfoldAxisSize.min,
+    this.axisAlignment = PaperfoldAxisAlignment.start,
     this.animationDuration = _defaultAnimationDuration,
     this.animationCurve = _defaultAnimationCurve,
     this.perspective = 0.001,
@@ -291,28 +304,40 @@ class PaperfoldListState extends State<PaperfoldList> with SingleTickerProviderS
     switch (widget.axis) {
       case PaperfoldAxis.vertical:
         return Column(
+          mainAxisSize: _flexSize,
           mainAxisAlignment: _flexAlignment,
-          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: _buildChildren(),
         );
       case PaperfoldAxis.horizontal:
         return Row(
+          mainAxisSize: _flexSize,
           mainAxisAlignment: _flexAlignment,
-          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: _buildChildren(),
         );
     }
   }
 
+  /// Converts the widget's [PaperfoldAxisSize] to corresponding [MainAxisSize].
+  MainAxisSize get _flexSize {
+    switch (widget.axisSize) {
+      case PaperfoldAxisSize.min:
+        return MainAxisSize.min;
+      case PaperfoldAxisSize.max:
+        return MainAxisSize.max;
+    }
+  }
+
+  /// Converts the widget's [PaperfoldAxisAlignment] to corresponding
+  /// [MainAxisAlignment].
   MainAxisAlignment get _flexAlignment {
-    switch (widget.alignment) {
-      case PaperfoldAlignment.start:
+    switch (widget.axisAlignment) {
+      case PaperfoldAxisAlignment.start:
         return MainAxisAlignment.start;
-      case PaperfoldAlignment.center:
+      case PaperfoldAxisAlignment.center:
         return MainAxisAlignment.center;
-      case PaperfoldAlignment.end:
+      case PaperfoldAxisAlignment.end:
         return MainAxisAlignment.end;
     }
   }

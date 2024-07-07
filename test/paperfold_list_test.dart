@@ -168,7 +168,7 @@ void main() {
                 child: PaperfoldList(
                   itemExtent: 100,
                   targetUnfold: 1,
-                  alignment: PaperfoldAlignment.start,
+                  axisAlignment: PaperfoldAxisAlignment.start,
                   children: [Container(key: onlyChildKey)],
                 ),
               ),
@@ -190,7 +190,7 @@ void main() {
                 child: PaperfoldList(
                   itemExtent: 100,
                   targetUnfold: 1,
-                  alignment: PaperfoldAlignment.center,
+                  axisAlignment: PaperfoldAxisAlignment.center,
                   children: [Container(key: onlyChildKey)],
                 ),
               ),
@@ -214,7 +214,7 @@ void main() {
                 child: PaperfoldList(
                   itemExtent: 100,
                   targetUnfold: 1,
-                  alignment: PaperfoldAlignment.end,
+                  axisAlignment: PaperfoldAxisAlignment.end,
                   children: [Container(key: onlyChildKey)],
                 ),
               ),
