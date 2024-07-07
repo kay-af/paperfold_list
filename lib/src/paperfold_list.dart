@@ -16,8 +16,8 @@ import 'package:vector_math/vector_math_64.dart';
 /// percentage of the list to be unfolded. When the widget mounts for the first
 /// time, this value is used to determine the initial state of the list.
 /// Subsequent updates smoothly animate the list to the new `targetUnfold` value
-/// based on `animationDuration` (Default: `250ms`) and `animationCurve`
-/// (Default: [Curves.linear]).
+/// based on `animationDuration` (Default value: `250ms`) and `animationCurve`
+/// (Default value: [Curves.linear]).
 ///
 /// `perspective` is the value of the transformation matrix's `(3,2)` entry.
 /// Typically, a small value like `0.001` works well to visualize 3D rotations.
@@ -77,6 +77,20 @@ class PaperfoldList extends StatefulWidget {
   /// Default value: [PaperfoldAxis.vertical].
   final PaperfoldAxis axis;
 
+  /// [PaperfoldList] places elements in a `Row` or `Column` based on the
+  /// `axis`. This property controls the `mainAxisAlignment` property of the
+  /// corresponding flex widget.
+  ///
+  /// * [PaperfoldAlignment.start] corresponds to [MainAxisAlignment.start].
+  ///
+  /// * [PaperfoldAlignment.center] corresponds to
+  ///   [MainAxisAlignment.center].
+  ///
+  /// * [PaperfoldAlignment.end] corresponds to [MainAxisAlignment.end].
+  ///
+  /// Default value: [PaperfoldAlignment.start].
+  final PaperfoldAlignment alignment;
+
   /// The time taken to smoothly animate to the `targetUnfold` whenever the
   /// `targetUnfold` value changes.
   ///
@@ -91,6 +105,8 @@ class PaperfoldList extends StatefulWidget {
 
   /// The value of the transformation matrix's `(3,2)` entry. Typically, a small
   /// value like `0.001` works well to visualize 3D rotations.
+  ///
+  /// Default value: `0.001`.
   final double perspective;
 
   /// Determines wether the first child folds inward.
@@ -100,12 +116,16 @@ class PaperfoldList extends StatefulWidget {
   /// * `leftmost` child when `axis` = [PaperfoldAxis.horizontal].
   ///
   /// * `topmost` child when `axis` = [PaperfoldAxis.vertical].
+  ///
+  /// Default value: `true`.
   final bool firstChildFoldsInward;
 
   /// When fully folded, this value determines if the `children` should be
   /// mounted. To unmount the children when fully folded, set this value to
   /// `true`. However, doing so will reset their state as they are removed from
   /// the tree.
+  ///
+  /// Default value: `false`.
   final bool unmountOnFold;
 
   /// When the list folds, this value specifies the point after which, the
@@ -148,6 +168,7 @@ class PaperfoldList extends StatefulWidget {
     required this.targetUnfold,
     required this.children,
     this.axis = PaperfoldAxis.vertical,
+    this.alignment = PaperfoldAlignment.start,
     this.animationDuration = _defaultAnimationDuration,
     this.animationCurve = _defaultAnimationCurve,
     this.perspective = 0.001,
@@ -183,6 +204,7 @@ class PaperfoldList extends StatefulWidget {
     required this.itemCount,
     required this.itemBuilder,
     this.axis = PaperfoldAxis.vertical,
+    this.alignment = PaperfoldAlignment.start,
     this.animationDuration = _defaultAnimationDuration,
     this.animationCurve = _defaultAnimationCurve,
     this.perspective = 0.001,
@@ -269,16 +291,27 @@ class PaperfoldListState extends State<PaperfoldList> with SingleTickerProviderS
     switch (widget.axis) {
       case PaperfoldAxis.vertical:
         return Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: _flexAlignment,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: _buildChildren(),
         );
       case PaperfoldAxis.horizontal:
         return Row(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: _flexAlignment,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: _buildChildren(),
         );
+    }
+  }
+
+  MainAxisAlignment get _flexAlignment {
+    switch (widget.alignment) {
+      case PaperfoldAlignment.start:
+        return MainAxisAlignment.start;
+      case PaperfoldAlignment.center:
+        return MainAxisAlignment.center;
+      case PaperfoldAlignment.end:
+        return MainAxisAlignment.end;
     }
   }
 

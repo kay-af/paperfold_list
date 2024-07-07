@@ -46,41 +46,45 @@ class PaperfoldShadeEffect extends PaperfoldEffect {
   /// [PaperfoldList] using the following parameters:
   ///
   /// * `backgroundColor`: Draws a surface with the specified color behind each
-  ///   child. A `null` value indicates no surface.
+  ///   child. A `null` value indicates no surface. Default:
+  ///   `Color(0xFFF8F4F0)`.
   ///
   /// * `inwardOverlay`: Overlays a flat surface of the specified color on a
   ///   child that folds inward. The overlay strengthens as the paper folds. It
   ///   is useful for drawing shadows or highlights on a child that folds
-  ///   inward. A `null` value indicates no overlay.
+  ///   inward. A `null` value indicates no overlay. Default:
+  ///   `Color(0x240C0404)`.
   ///
   /// * `outwardOverlay`: Overlays a flat surface of the given color on a child
   ///   that folds outward. The overlay strengthens as the paper folds. It is
   ///   useful for drawing shadows or highlights on a child that folds outward.
-  ///   A `null` value indicates no overlay.
+  ///   A `null` value indicates no overlay. Default: `null`.
   ///
   /// * `inwardCrease`: Color of a gradient that starts from the inside crease
   ///   and fades towards the outside. The gradient strengthens as the paper
   ///   folds. The size of the gradient is determined by the `inwardCreaseSize`.
-  ///   A `null` value indicates no gradient.
+  ///   A `null` value indicates no gradient. Default: `Color(0x420C0404)`.
   ///
   /// * `inwardCreaseSize`: The size of the `inwardCrease` gradient represented
   ///   as a fraction of `itemExtent` of [PaperfoldList]. This property is
-  ///   ignored if `inwardCrease` is `null`.
+  ///   ignored if `inwardCrease` is `null`. Default: `0.75`.
   ///
   /// * `outwardCrease` - Color of a gradient that starts from the outside
   ///   crease and fades towards the inside. The gradient strengthens as the
   ///   paper folds. The size of the gradient is determined by the
-  ///   `outwardCreaseSize`. A `null` value indicates no gradient.
+  ///   `outwardCreaseSize`. A `null` value indicates no gradient. Default:
+  ///   `null`.
   ///
   /// * `outwardCreaseSize`: The size of the `outwardCrease` gradient
   ///   represented as a fraction of `itemExtent` of [PaperfoldList]. This
-  ///   property is ignored if `outwardCrease` is `null`.
+  ///   property is ignored if `outwardCrease` is `null`. Default: `0.25`.
   ///
   /// * `drawInwardCreaseOnTop`: Determines the order in which the creases are
   ///   drawn. When `true`, The inward crease is drawn after the outward crease.
+  ///   Default: `false`.
   ///
-  /// * `preBuilder`: Optional builder to add custom effects before applying
-  ///   all the effects.
+  /// * `preBuilder`: Optional builder to add custom effects before applying all
+  ///   the effects.
   ///
   /// * `postBuilder` - Optional builder to add custom effects after applying
   ///   all the effects.
@@ -90,7 +94,7 @@ class PaperfoldShadeEffect extends PaperfoldEffect {
     final Color? outwardOverlay,
     final Color? inwardCrease = const Color(0x420C0404),
     final double inwardCreaseSize = 0.75,
-    final Color? outwardCrease = const Color(0x42F5F5F5),
+    final Color? outwardCrease,
     final double outwardCreaseSize = 0.25,
     final bool drawInwardCreaseOnTop = false,
     final PaperfoldEffectBuilder? preBuilder,
