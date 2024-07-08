@@ -1,7 +1,7 @@
 name: paperfold_list
 description: "A Flutter widget library providing an expandable list view that
   folds in/out like paper"
-version: 1.0.0
+version: 1.0.1
 homepage: https://github.com/kay-af/paperfold_list
 
 environment:

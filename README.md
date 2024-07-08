@@ -1,6 +1,6 @@
 # Paperfold List
 
-<a href="https://pub.dev/packages/paperfold_list"><img src="https://img.shields.io/badge/pub-1.0.0-blue" alt="pub.dev" /></a>
+<a href="https://pub.dev/packages/paperfold_list"><img src="https://img.shields.io/badge/pub-1.0.1-blue" alt="pub.dev" /></a>
 <a href="https://github.com/kay-af/paperfold_list/actions"><img src="https://github.com/kay-af/paperfold_list/actions/workflows/build.yml/badge.svg" /></a>
 <a href="https://opensource.org/license/MIT"><img src="https://img.shields.io/badge/license-MIT-yellow" alt="pub.dev" /></a>
 
@@ -55,11 +55,11 @@ PaperfoldList.builder(
 )
 ```
 
-Check out the [PaperfoldList](https://pub.dev/documentation/paperfold_list/1.0.0/paperfold_list/PaperfoldList-class) documentation for complete information about the parameters.
+Check out the [PaperfoldList](https://pub.dev/documentation/paperfold_list/1.0.1/paperfold_list/PaperfoldList-class.html) documentation for complete information about the parameters.
 
 ### Effects
 
-The [PaperfoldEffect](https://pub.dev/documentation/paperfold_list/1.0.0/paperfold_list/PaperfoldEffect-class) class provides a way to include additional effects by wrapping each child with a widget to draw effects over them based on the amount of the list folded and other properties.
+The [PaperfoldEffect](https://pub.dev/documentation/paperfold_list/1.0.1/paperfold_list/PaperfoldEffect-class.html) class provides a way to include additional effects by wrapping each child with a widget to draw effects over them based on the amount of the list folded and other properties.
 
 There are three types of Effects provided:
 
@@ -87,7 +87,7 @@ There are three types of Effects provided:
   )
   ```
 
-  Check out the [PaperfoldShadeEffect](https://pub.dev/documentation/paperfold_list/1.0.0/paperfold_list/PaperfoldShadeEffect-class) documentation for complete information about the parameters.
+  Check out the [PaperfoldShadeEffect](https://pub.dev/documentation/paperfold_list/1.0.1/paperfold_list/PaperfoldShadeEffect-class.html) documentation for complete information about the parameters.
 
 - **PaperfoldListCustomEffect**: To define custom effects using `PaperfoldEffectBuilder`.
 
