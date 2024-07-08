@@ -110,7 +110,8 @@ class PaperfoldShadeEffect extends PaperfoldEffect {
         super(builder: (context, info, child) {
           final surfacedChild = _optionallyDrawBackground(
             color: backgroundColor,
-            child: preBuilder != null ? preBuilder(context, info, child) : child,
+            child:
+                preBuilder != null ? preBuilder(context, info, child) : child,
           );
 
           final shadedChild = _optionallyDrawCreases(
@@ -131,7 +132,9 @@ class PaperfoldShadeEffect extends PaperfoldEffect {
             ),
           );
 
-          return postBuilder != null ? postBuilder(context, info, shadedChild) : shadedChild;
+          return postBuilder != null
+              ? postBuilder(context, info, shadedChild)
+              : shadedChild;
         });
 
   /// Flips an alignment centered on the edge of a box.
@@ -195,7 +198,8 @@ class PaperfoldShadeEffect extends PaperfoldEffect {
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      Color.lerp(inwardCrease.withOpacity(0), inwardCrease, 1 - info.unfold)!,
+                      Color.lerp(inwardCrease.withOpacity(0), inwardCrease,
+                          1 - info.unfold)!,
                       inwardCrease.withOpacity(0),
                     ],
                     begin: _computeCreaseBeginAlignment(
@@ -221,7 +225,8 @@ class PaperfoldShadeEffect extends PaperfoldEffect {
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      Color.lerp(outwardCrease.withOpacity(0), outwardCrease, 1 - info.unfold)!,
+                      Color.lerp(outwardCrease.withOpacity(0), outwardCrease,
+                          1 - info.unfold)!,
                       outwardCrease.withOpacity(0),
                     ],
                     begin: _computeCreaseBeginAlignment(
@@ -275,7 +280,8 @@ class PaperfoldShadeEffect extends PaperfoldEffect {
   }
 
   /// Draw the background surface for the child.
-  static Widget _optionallyDrawBackground({Color? color, required Widget child}) {
+  static Widget _optionallyDrawBackground(
+      {Color? color, required Widget child}) {
     // Skip background widget if no background color is provided.
     if (color == null) return child;
 

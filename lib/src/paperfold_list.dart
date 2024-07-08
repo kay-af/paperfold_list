@@ -203,7 +203,8 @@ class PaperfoldList extends StatefulWidget {
         ),
         assert(
           interactionUnfoldThreshold == null ||
-              (interactionUnfoldThreshold >= 0 && interactionUnfoldThreshold <= 1),
+              (interactionUnfoldThreshold >= 0 &&
+                  interactionUnfoldThreshold <= 1),
           "interactionUnfoldThreshold can either be null or must be within the inclusive range of 0 to 1.",
         ),
         itemCount = null,
@@ -244,7 +245,8 @@ class PaperfoldList extends StatefulWidget {
         ),
         assert(
           interactionUnfoldThreshold == null ||
-              (interactionUnfoldThreshold >= 0 && interactionUnfoldThreshold <= 1),
+              (interactionUnfoldThreshold >= 0 &&
+                  interactionUnfoldThreshold <= 1),
           "interactionUnfoldThreshold can either be null or must be within the inclusive range of 0 to 1.",
         ),
         children = null;
@@ -254,7 +256,8 @@ class PaperfoldList extends StatefulWidget {
 }
 
 /// The state of [PaperfoldList] widget.
-class PaperfoldListState extends State<PaperfoldList> with SingleTickerProviderStateMixin {
+class PaperfoldListState extends State<PaperfoldList>
+    with SingleTickerProviderStateMixin {
   // Animates the unfold value to the `targetUnfold` whenever it changes.
   late AnimationController _unfoldAnimationController;
   // The [PaperfoldEffect] to use.
@@ -364,15 +367,22 @@ class PaperfoldListState extends State<PaperfoldList> with SingleTickerProviderS
           }
 
           // Calculate the alignment of the transform.
-          final alignmentHorizontal = foldsInward ? Alignment.centerLeft : Alignment.centerRight;
-          final alignmentVertical = foldsInward ? Alignment.topCenter : Alignment.bottomCenter;
-          final alignment = isHorizontal ? alignmentHorizontal : alignmentVertical;
+          final alignmentHorizontal =
+              foldsInward ? Alignment.centerLeft : Alignment.centerRight;
+          final alignmentVertical =
+              foldsInward ? Alignment.topCenter : Alignment.bottomCenter;
+          final alignment =
+              isHorizontal ? alignmentHorizontal : alignmentVertical;
 
           // Calculate the rotation angle.
-          final angle = (1 - unfold) * (pi / 2) * (foldsInward ? 1 : -1) * (isHorizontal ? -1 : 1);
+          final angle = (1 - unfold) *
+              (pi / 2) *
+              (foldsInward ? 1 : -1) *
+              (isHorizontal ? -1 : 1);
 
           // Perspective Matrix4 with rotation applied.
-          final perspectiveTransform = Matrix4.identity()..setEntry(3, 2, widget.perspective);
+          final perspectiveTransform = Matrix4.identity()
+            ..setEntry(3, 2, widget.perspective);
           if (isVertical) {
             perspectiveTransform.rotateX(angle);
           } else {
@@ -391,10 +401,12 @@ class PaperfoldListState extends State<PaperfoldList> with SingleTickerProviderS
           );
           final size = Size(
             isHorizontal
-                ? transformedContainerVertex.x.abs() / transformedContainerVertex.w.abs()
+                ? transformedContainerVertex.x.abs() /
+                    transformedContainerVertex.w.abs()
                 : double.infinity,
             isVertical
-                ? transformedContainerVertex.y.abs() / transformedContainerVertex.w.abs()
+                ? transformedContainerVertex.y.abs() /
+                    transformedContainerVertex.w.abs()
                 : double.infinity,
           );
 
@@ -442,7 +454,8 @@ class PaperfoldListState extends State<PaperfoldList> with SingleTickerProviderS
         },
         // Use the `children` if normal constructor was used. Use `itemBuilder`
         // otherwise.
-        child: widget.children?.elementAt(index) ?? widget.itemBuilder!(context, index),
+        child: widget.children?.elementAt(index) ??
+            widget.itemBuilder!(context, index),
       );
     });
   }

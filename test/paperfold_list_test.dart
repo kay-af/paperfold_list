@@ -38,7 +38,8 @@ void main() {
         },
       );
 
-      testWidgets("For vertical lists, 'itemExtent' should limit the height of the children.",
+      testWidgets(
+          "For vertical lists, 'itemExtent' should limit the height of the children.",
           (tester) async {
         await tester.pumpWidget(
           MaterialApp(
@@ -159,7 +160,8 @@ void main() {
         onlyChildKey = const Key("only-child");
       });
 
-      testWidgets("Start alignment should position a vertical list on top.", (tester) async {
+      testWidgets("Start alignment should position a vertical list on top.",
+          (tester) async {
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
@@ -180,7 +182,8 @@ void main() {
         expect(childRect.top, equals(0.0));
       });
 
-      testWidgets("Center alignment should position a vertical list in the center.",
+      testWidgets(
+          "Center alignment should position a vertical list in the center.",
           (tester) async {
         await tester.pumpWidget(
           MaterialApp(
@@ -205,7 +208,8 @@ void main() {
         expect(childRect.bottom, equals(parentSize.height / 2 + 50));
       });
 
-      testWidgets("End alignment should position a vertical list at bottom.", (tester) async {
+      testWidgets("End alignment should position a vertical list at bottom.",
+          (tester) async {
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
