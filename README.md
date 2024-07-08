@@ -4,7 +4,7 @@
 <a href="https://github.com/kay-af/paperfold_list/actions"><img src="https://github.com/kay-af/paperfold_list/actions/workflows/test.yml/badge.svg" /></a>
 <a href="https://opensource.org/license/MIT"><img src="https://img.shields.io/badge/license-MIT-yellow" alt="pub.dev" /></a>
 
-Inspired by [PaperfoldJs](https://www.felixniklas.com/paperfold/).
+Inspired by [PaperfoldJs](https://www.felixniklas.com/paperfold).
 
 Paperfold List is a Flutter widget that creates an expandable list view that folds in and out like paper. This widget allows for a visually appealing and interactive list experience, with customizable animations and effects.
 
@@ -44,7 +44,7 @@ PaperfoldList(
 )
 ```
 
-If you want to use a builder pattern, you can instantiate the list like this:
+To use a builder pattern, instantiate the list like this:
 
 ```dart
 PaperfoldList.builder(
@@ -89,7 +89,7 @@ There are three types of Effects provided:
 
   Check out the [PaperfoldShadeEffect](https://pub.dev/documentation/paperfold_list/1.0.0/paperfold_list/PaperfoldShadeEffect-class) documentation for complete information about the parameters.
 
-- **PaperfoldListCustomEffect**: Define your own `PaperfoldEffectBuilder` to achieve a fully custom effect.
+- **PaperfoldListCustomEffect**: To define custom effects using `PaperfoldEffectBuilder`.
 
   Example effect to fade children as the list folds:
 
